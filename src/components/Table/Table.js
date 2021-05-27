@@ -1,3 +1,4 @@
+  import useFetch from '../../hooks/useFetch'
   import {
     Table,
     Thead,
@@ -7,14 +8,15 @@
     Th,
     Td,
     TableCaption,
+    Button,
   } from "@chakra-ui/react"
 
   
-  const table = () => {
+  const TableData = ({DB}) => {
+
       return (
-        <Table variant="simple">
-        <TableCaption>Imperial to metric conversion factors</TableCaption>
-        <Thead>
+        <Table variant="simple" w='1344px'>
+        <Thead backgroundColor='rgba(0, 0, 0, 0.02);'>
           <Tr>
             <Th>Project Info</Th>
             <Th>Project Manager</Th>
@@ -24,31 +26,29 @@
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-            <Td>30.48</Td>
-          </Tr>
-          <Tr>
-            <Td>yards</Td>
-            <Td>metres (m)</Td>
-            <Td>0.91444</Td>
-          </Tr>
+
+            {
+                DB.map(data => {
+
+                    return <>
+                    
+                        <Tr>
+
+                            <Td> {data.project_name} </Td>
+                            <Td> {data.project_manager} </Td>
+                            <Td> {data.assigned_to} </Td>
+                            <Td> {data.status} </Td>
+
+                        </Tr>
+
+                    </>
+
+                })
+            }
+          
         </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th>multiply by</Th>
-          </Tr>
-        </Tfoot>
       </Table>
       );
   };
   
-  export default table;
+  export default TableData;

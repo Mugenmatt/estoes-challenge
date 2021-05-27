@@ -1,30 +1,52 @@
-import React from 'react';
-import { ChakraProvider, Box, Alert, Heading } from "@chakra-ui/react"
-import { Button, ButtonGroup } from "@chakra-ui/react"
-import Logo from "./components/Logo/Logo";
-import Table from './components/Table/Table'
+import React, {useContext} from 'react';
+
+import { Context } from './context/context';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+import { ChakraProvider } from "@chakra-ui/react"
+
+import EditProject from './pages/EditProject';
+import AddProject from './pages/AddProject';
+import ListProject from './pages/ListProject';
+
+import NavBar from './components/NavBar/NavBar';
 
 function App() {
+
+  const DB = useContext(Context)
+
   return (
-    <div className="App">
+
+    <Router>
 
       <ChakraProvider>
 
-        <Logo />
+        <div className="App">
 
-        <Box w='100%' m='auto' d='flex' justifyContent='space-between' alignItems='center'>
+          <NavBar />
 
-          <Heading >My Projects</Heading >
-         
-          <Button colorScheme='red' >+ Add project</Button>
+          <Context.Provider value={DB.projects}>
 
-        </Box>
+            <Switch>
 
-        <Table />
+              <Route exact path='/' component={ListProject} />
+              <Route exact path='/add' component={AddProject} />
+              <Route exact path='/edit' component={EditProject} />
+
+            </Switch>
+          
+          </Context.Provider>
+
+        </div>
 
       </ChakraProvider>
 
-    </div>
+    </Router>
   );
 }
 
