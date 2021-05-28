@@ -1,6 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {Context} from '../../App'
 import { v4 as uuidv4 } from 'uuid';
+import Lottie from 'react-lottie';
+import Gear from '../../assets/lottie/gear.json';
 import {
     FormControl,
     FormLabel,
@@ -12,6 +14,23 @@ import {
 const FormAddEdit = () => {
 
     const { projects, handleAddProject, handleEditProject } = useContext(Context)
+    const [fakeLoading, setFakeLoading] = useState(true);
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: Gear
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setFakeLoading(false) 
+        }, 1000);
+        
+         return () => {
+        
+         }
+    }, [])
 
     const history = useHistory()
 
@@ -108,52 +127,57 @@ const FormAddEdit = () => {
 
             <Heading mb='4%'>{idSelected ? 'Edit Project' : 'New Project'}</Heading>
 
-            <form onSubmit={handleSubmit}>
+            {
+                fakeLoading ?
+                <Box backgroundColor='#fff' borderRadius='50%'> <Lottie options={{...defaultOptions}} width='500px'/></Box>
+                :  <form onSubmit={handleSubmit}>
 
-                <FormControl id="project-name" mb='3%'>
-                    <FormLabel color='#262626' m='2px 0'>Project Name</FormLabel>
-                    <Input type="text" value={newProject.project_name} onChange={handleProjectName} />
-                </FormControl>
+                    <FormControl id="project-name" mb='3%'>
+                        <FormLabel color='#262626' m='2px 0'>Project Name</FormLabel>
+                        <Input type="text" value={newProject.project_name} onChange={handleProjectName} />
+                    </FormControl>
 
-                <FormControl id="description" mb='3%'>
-                    <FormLabel color='#262626' m='2px 0'>Description</FormLabel>
-                    <Input type="text" value={newProject.description} onChange={handleDescription} />
-                </FormControl>
+                    <FormControl id="description" mb='3%'>
+                        <FormLabel color='#262626' m='2px 0'>Description</FormLabel>
+                        <Input type="text" value={newProject.description} onChange={handleDescription} />
+                    </FormControl>
 
-                <FormControl id="project-manager" mb='3%'>
-                    <FormLabel color='#262626' m='2px 0'>Project Manager</FormLabel>
-                    <Select placeholder={!idSelected && 'Select a person'} onChange={handleProjectManager}>
-                        {
-                            projects.map(data => {
-                                return <option key={data.id}> {data.project_manager_name} </option>
-                            })
-                        }
-                    </Select>
-                </FormControl>
+                    <FormControl id="project-manager" mb='3%'>
+                        <FormLabel color='#262626' m='2px 0'>Project Manager</FormLabel>
+                        <Select placeholder={!idSelected && 'Select a person'} onChange={handleProjectManager}>
+                            {
+                                projects.map(data => {
+                                    return <option key={data.id}> {data.project_manager_name} </option>
+                                })
+                            }
+                        </Select>
+                    </FormControl>
 
-                <FormControl id="assigned-to" mb='3%'>
-                    <FormLabel color='#262626' m='2px 0'>Assigned to</FormLabel>
-                    <Select placeholder={!idSelected && 'Select a person'} onChange={handleAssignedTo}>
-                        {
-                            projects.map(data => {
-                                return <option key={data.id}> {data.assigned_to_name} </option>
-                            })
-                        }
-                    </Select>
-                </FormControl>
+                    <FormControl id="assigned-to" mb='3%'>
+                        <FormLabel color='#262626' m='2px 0'>Assigned to</FormLabel>
+                        <Select placeholder={!idSelected && 'Select a person'} onChange={handleAssignedTo}>
+                            {
+                                projects.map(data => {
+                                    return <option key={data.id}> {data.assigned_to_name} </option>
+                                })
+                            }
+                        </Select>
+                    </FormControl>
 
-                <FormControl id="status" mb='3%'>
-                    <FormLabel color='#262626' m='2px 0'>Status</FormLabel>
-                    <Select placeholder={!idSelected && 'Select a status'} onChange={handleStatus}>
-                        <option>Enabled</option>
-                        <option>Disabled</option>
-                    </Select>
-                </FormControl>
+                    <FormControl id="status" mb='3%'>
+                        <FormLabel color='#262626' m='2px 0'>Status</FormLabel>
+                        <Select placeholder={!idSelected && 'Select a status'} onChange={handleStatus}>
+                            <option>Enabled</option>
+                            <option>Disabled</option>
+                        </Select>
+                    </FormControl>
 
-                <Input w='30%' color='#fff' padding= "8px 16px" background= "#F5222D" borderRadius= "4px" cursor='pointer' type='submit' value={idSelected ? 'Save Changes' : 'Create Project'} />
+                    <Input w='30%' color='#fff' padding= "8px 16px" background= "#F5222D" borderRadius= "4px" cursor='pointer' type='submit' value={idSelected ? 'Save Changes' : 'Create Project'} />
 
-            </form>
+                </form>
+            }
         </Box>
+
     );
 };
 
