@@ -19,7 +19,6 @@ const App = () => {
   const [data, setData] = useState(DB)
 
   const handleAddProject = (newProject) => {
-    console.log(newProject);
     setData((state) => {
       return {
         projects: [...state.projects, newProject]
@@ -27,11 +26,22 @@ const App = () => {
     })
   }
 
-  const handleEditProject = (newData) => {
-
+  const handleEditProject = () => {
     setData((state) => {
       return {
         projects: [...state.projects]
+      }
+    })
+  }
+
+  const handleDeleteProject = (projectID) => {
+    setData((state) => {
+      const copiedDB = [...state.projects];
+      const deletedProject = copiedDB.filter(project => {
+        return project.id !== projectID;
+      })
+      return {
+        projects: [...deletedProject]
       }
     })
   }
@@ -46,7 +56,7 @@ const App = () => {
 
           <NavBar />
 
-          <Context.Provider value={{...data, handleAddProject, handleEditProject}}>
+          <Context.Provider value={{...data, handleAddProject, handleEditProject, handleDeleteProject}}>
 
               <Switch>
 

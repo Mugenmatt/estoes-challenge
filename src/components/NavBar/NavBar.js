@@ -31,7 +31,7 @@ const NavBar = () => {
                 {
                     location.pathname === '/' &&
                     <Link to='/add' style={{marginRight:'3%'}} >
-                        <Button colorScheme='red'  >+ Add project</Button>
+                        <Button backgroundColor='#F5222D' color='#fff'  >+ Add project</Button>
                     </Link>
                 }
             </Box>
