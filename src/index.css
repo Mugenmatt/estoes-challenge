@@ -1,10 +1,13 @@
-body {
-  margin: 0;
+html {
+  margin: auto;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
   font-weight: 600;
   font-family: 'Inter', 'Roboto', sans-serif;
 }
 
-.App {
-  background-color:#E5E5E5;
-  height: 100vh;
+.app {
+  background-color: #E5E5E5;
+  
 }

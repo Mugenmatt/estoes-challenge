@@ -11,6 +11,8 @@ import {
   } from "@chakra-ui/react"
   import { Box, Heading } from '@chakra-ui/layout';
   import {useHistory} from 'react-router-dom';
+import './index.css';
+
 const FormAddEdit = () => {
 
     const { projects, handleAddProject, handleEditProject } = useContext(Context)
@@ -52,9 +54,10 @@ const FormAddEdit = () => {
         project_created_at: idSelected !== undefined ? projectSelected.project_created_at : 'Creation date: ' + new Date().toLocaleDateString(),
         description: idSelected !== undefined ? projectSelected.description : '',
         project_manager_name: idSelected !== undefined ? projectSelected.project_manager_name : '',
-        project_manager_avatar: 'http://a.wordpress.com/avatar/unknown-128.jpg',
+        project_manager_avatar: idSelected !== undefined ? projectSelected.project_manager_avatar : 'http://a.wordpress.com/avatar/unknown-128.jpg' 
+        ,
         assigned_to_name: idSelected !== undefined ? projectSelected.assigned_to_name : '',
-        assigned_to_avatar: 'http://a.wordpress.com/avatar/unknown-128.jpg',
+        assigned_to_avatar: idSelected !== undefined ? projectSelected.assigned_to_avatar : 'http://a.wordpress.com/avatar/unknown-128.jpg',
         status: idSelected !== undefined ? projectSelected.status : '',
     })
     
@@ -123,13 +126,13 @@ const FormAddEdit = () => {
     }
 
     return (
-        <Box w='41.50%'m='auto' boxShadow='0px 2px 4px rgba(0, 0, 0, 0.15)' borderRadius='4px' backgroundColor='#fff' p='2%'>
+        <Box className='form-box'  backgroundColor='#fff' >
 
             <Heading mb='4%'>{idSelected ? 'Edit Project' : 'New Project'}</Heading>
 
             {
                 fakeLoading ?
-                <Box backgroundColor='#fff' borderRadius='50%'> <Lottie options={{...defaultOptions}} width='500px'/></Box>
+                <Box className='box-lottie'> <Lottie className='lottie' options={{...defaultOptions}}/></Box>
                 :  <form onSubmit={handleSubmit}>
 
                     <FormControl id="project-name" mb='3%'>
@@ -151,6 +154,7 @@ const FormAddEdit = () => {
                                 })
                             }
                         </Select>
+
                     </FormControl>
 
                     <FormControl id="assigned-to" mb='3%'>
@@ -162,6 +166,7 @@ const FormAddEdit = () => {
                                 })
                             }
                         </Select>
+
                     </FormControl>
 
                     <FormControl id="status" mb='3%'>
@@ -172,7 +177,18 @@ const FormAddEdit = () => {
                         </Select>
                     </FormControl>
 
-                    <Input w='30%' color='#fff' padding= "8px 16px" background= "#F5222D" borderRadius= "4px" cursor='pointer' type='submit' value={idSelected ? 'Save Changes' : 'Create Project'} />
+                    <Input 
+                        className='submit-btn' 
+                        width={'20%'} 
+                        type='submit' 
+                        value={idSelected ? 'Save Changes' : 'Create Project'}
+                        width= '20%'
+                        color='#fff '
+                        padding= '8px 16px' 
+                        backgroundColor= '#F5222D '
+                        borderRadius= '4px'
+                        cursor='pointer'
+                    />
 
                 </form>
             }

@@ -1,5 +1,5 @@
 
-  import React, {useContext, useState, useRef, useEffect} from 'react';
+  import React, {useContext, useState, useRef} from 'react';
 import {Context} from '../../App'
   import {Link} from 'react-router-dom'
   import {
@@ -29,6 +29,7 @@ import {Context} from '../../App'
   import { AiFillDelete, AiTwotoneEdit } from 'react-icons/ai';
   import Lottie from 'react-lottie';
   import Delete from '../../assets/lottie/delete.json';
+  import './index.css'
   
   const TableData = () => {
 
@@ -56,12 +57,12 @@ import {Context} from '../../App'
     }
 
       return (
-        <>
+        <Box className='table-box'>
         {
-          fakeLoading ? <Box backgroundColor='#fff' borderRadius='50%'><Lottie options={{...defaultOptions}} width='500px' /></Box> :
-          <Table variant="simple" w='1344px' backgroundColor='#fff'>
+          fakeLoading ? <Box className='box-lottie2'> <Lottie className='lottie2' options={{...defaultOptions}}/></Box> :
+          <Table className='table' variant="simple" >
 
-            <Thead backgroundColor='rgba(0, 0, 0, 0.02);'>
+            <Thead className='table-heading' backgroundColor='rgba(0, 0, 0, 0.02);'>
               <Tr>
                 <Th>Project Info</Th>
                 <Th>Project Manager</Th>
@@ -70,32 +71,32 @@ import {Context} from '../../App'
                 <Th>Action</Th>
               </Tr>
             </Thead>
-            <Tbody>
+            <Tbody className='table-body'>
 
               {
                   projects.map((data) => {
                     return <Tr key={data.id}>
                         
-                        <Td> 
+                        <Td className='project-name'> 
                           {data.project_name} 
                           <Text fontSize='0.7em' color='rgba(0, 0, 0, 0.45)'> {data.project_created_at} </Text>
                         </Td>
 
-                        <Td > 
+                        <Td className='manager-avatar'> 
                             <Image d='inline' w='30px' mr='4%' src={data.project_manager_avatar} alt='Project Manager Avatar' /> 
                             {data.project_manager_name} 
                         </Td>
 
-                        <Td > 
+                        <Td className='assigned-avatar'> 
                             <Image d='inline' w='30px' mr='4%' src={data.assigned_to_avatar} alt='Assigned To Avatar' /> 
                             {data.assigned_to_name}  
                         </Td>
 
-                        <Td> 
+                        <Td className='status-btn'> 
                             <Button backgroundColor={data.status === 'Disabled' ? '#F5222D' : '#42ba96'} color='#fff' >{data.status}</Button>
                         </Td>
 
-                        <Td > 
+                        <Td className='options-btn'> 
                             <Menu>
                               <MenuButton  
                                 as={IconButton}
@@ -167,7 +168,7 @@ import {Context} from '../../App'
           </AlertDialog>
         </>
       }
-    </>
+    </Box>
     );
   };
   

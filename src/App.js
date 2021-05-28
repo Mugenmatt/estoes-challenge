@@ -6,7 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 
-import { ChakraProvider } from "@chakra-ui/react"
+import { Box, ChakraProvider } from "@chakra-ui/react"
 import ListProject from './pages/ListProject';
 
 import NavBar from './components/NavBar/NavBar';
@@ -47,12 +47,11 @@ const App = () => {
   }
 
   return (
+    <ChakraProvider>
+      <Router>
 
-    <Router>
 
-      <ChakraProvider>
-
-        <div className="App">
+        <Box className='app' w='100%' h='100vh' boxSizing='border-box' p='0' m='0' backgroundColor='#E5E5E5'>
 
           <NavBar />
 
@@ -74,11 +73,11 @@ const App = () => {
 
           </Context.Provider>
 
-        </div>
+        </Box>
 
-      </ChakraProvider>
 
-    </Router>
+      </Router>
+    </ChakraProvider>
   );
 }
 
