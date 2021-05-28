@@ -7,7 +7,8 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Select
+    Select,
+    Text
   } from "@chakra-ui/react"
   import { Box, Heading } from '@chakra-ui/layout';
   import {useHistory} from 'react-router-dom';
@@ -17,6 +18,7 @@ const FormAddEdit = () => {
 
     const { projects, handleAddProject, handleEditProject } = useContext(Context)
     const [fakeLoading, setFakeLoading] = useState(true);
+    const [error, setError] = useState(false)
 
     const defaultOptions = {
         loop: true,
@@ -113,15 +115,26 @@ const FormAddEdit = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(history.location.pathname === '/edit'){
-            const newData = projects.filter(data => {
-                return data.id === newProject.id ? Object.assign(data,newProject) : data;
-            })
-            handleEditProject(newData)
-            return history.push('/')
+
+        if(newProject.project_name.length < 3 || newProject.project_name === '' ||
+        newProject.description.length < 6 || newProject.description === '' ||
+        newProject.project_manager_name === null || newProject.project_manager_name === '' ||
+        newProject.assigned_to_name === null || newProject.assigned_to_name === '' ||
+        newProject.status === null || newProject.status === ''){
+
+            setError(true)
+            return;
         } else {
-            handleAddProject(newProject)
-            return history.push('/')
+            if(history.location.pathname === '/edit'){
+                const newData = projects.filter(data => {
+                    return data.id === newProject.id ? Object.assign(data,newProject) : data;
+                })
+                handleEditProject(newData)
+                return history.push('/')
+            } else {
+                handleAddProject(newProject)
+                return history.push('/')
+            }
         }
     }
 
@@ -189,6 +202,10 @@ const FormAddEdit = () => {
                         borderRadius= '4px'
                         cursor='pointer'
                     />
+
+                    {
+                        error && <Text d='inline-block' color='tomato' fontSize='1.3em' ml='3%'>There are incomplete fields</Text> 
+                    }
 
                 </form>
             }
