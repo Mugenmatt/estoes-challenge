@@ -1,7 +1,5 @@
-import React, {useContext} from 'react';
-
-import { Context } from './context/context';
-
+import React, {useState, createContext} from 'react';
+import { DB } from './context/context';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,16 +7,34 @@ import {
 } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react"
-
-import EditProject from './pages/EditProject';
-import AddProject from './pages/AddProject';
 import ListProject from './pages/ListProject';
 
 import NavBar from './components/NavBar/NavBar';
+import FormAddEdit from './pages/FormProject';
 
-function App() {
+export const Context = createContext()
 
-  const DB = useContext(Context)
+const App = () => {
+
+  const [data, setData] = useState(DB)
+
+  const handleAddProject = (newProject) => {
+    console.log(newProject);
+    setData((state) => {
+      return {
+        projects: [...state.projects, newProject]
+      }
+    })
+  }
+
+  const handleEditProject = (newData) => {
+
+    setData((state) => {
+      return {
+        projects: [...state.projects]
+      }
+    })
+  }
 
   return (
 
@@ -30,16 +46,22 @@ function App() {
 
           <NavBar />
 
-          <Context.Provider value={DB.projects}>
+          <Context.Provider value={{...data, handleAddProject, handleEditProject}}>
 
-            <Switch>
+              <Switch>
 
-              <Route exact path='/' component={ListProject} />
-              <Route exact path='/add' component={AddProject} />
-              <Route exact path='/edit' component={EditProject} />
+                <Route exact path='/'>
+                  <ListProject />
+                </Route>
+                <Route exact path='/add'>
+                  <FormAddEdit />
+                </Route>
+                <Route exact path='/edit'>
+                  <FormAddEdit />
+                </Route>
 
-            </Switch>
-          
+              </Switch>
+
           </Context.Provider>
 
         </div>
